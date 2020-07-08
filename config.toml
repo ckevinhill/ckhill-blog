@@ -142,3 +142,23 @@ hrefTargetBlank = true
 lang = "en"
 languageName = "English"
 weight = 1
+
+[deployment]
+  [[deployment.targets]]
+  name = "default"
+  URL = "azblob://$web"
+  
+  [[deployment.matchers]]
+  #  Cache static assets for 1 year.
+  pattern = "^.+\\.(js|css|svg|ttf)$"
+  cacheControl = "max-age=31536000, no-transform, public"
+  gzip = true
+
+  [[deployment.matchers]]
+  pattern = "^.+\\.(png|jpg)$"
+  cacheControl = "max-age=31536000, no-transform, public"
+  gzip = false
+
+  [[deployment.matchers]]
+  pattern = "^.+\\.(html|xml|json)$"
+  gzip = true
