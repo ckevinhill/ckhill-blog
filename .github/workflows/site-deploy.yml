@@ -13,7 +13,7 @@ on:
     branches: [ master ]
 
 env:
-  HUGO_VERSION: 0.64.0
+  HUGO_VERSION: 0.68.3
   SITE_BASEURL: https://blog.ckhill.com
   AZURE_STORAGE_ACCOUNT: blogckhillcom
   # AZURE_STORAGE_KEY: <Stored as Repository Secret>
