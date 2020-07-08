@@ -119,9 +119,9 @@ indexName = ""
 searchApiKey = ""
 
 [taxonomies]
-author = "authors"
-category = "categories"
-series = "series"
+# author = "authors"
+# category = "categories"
+# series = "series"
 tag = "tags"
 
 [permalinks]
