@@ -13,7 +13,7 @@ on:
     branches: [ master ]
 
 env:
-  HUGO_VERSION: 0.71.1
+  HUGO_VERSION: 0.64.0
   SITE_BASEURL: https://blog.ckhill.com
   AZURE_STORAGE_ACCOUNT: blogckhillcom
   # AZURE_STORAGE_KEY: <Stored as Repository Secret>
@@ -26,19 +26,17 @@ jobs:
     # Checkout latest codebase from repository
       - name: Checkout blog repository code
         uses: actions/checkout@v2
+
+    # Download and Install Hugo
+      - name: Setup hugo
+        uses: peaceiris/actions-hugo@v2
         with:
-          fetch-depth: 1
-          clean: true
-          submodules: false
-    # Download Hugo
-      - name: Download Hugo v${{ env.HUGO_VERSION }} Linux x64
-        run: "wget https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}/hugo_${{ env.HUGO_VERSION }}_Linux-64bit.deb -O hugo_${{ env.HUGO_VERSION }}_Linux-64bit.deb"
-    # Install Hugo
-      - name: Install Hugo
-        run: sudo dpkg -i hugo*.deb
+          hugo-version: "${{ env.SITE_BASEURL }}"
+    
     # Build site
       - name: Build site with Hugo
-        run: hugo --baseUrl '${{ env.SITE_BASEURL }}'
+        run: hugo --minify
+    
     # Deploy site via Hugo
       - name: Deploy build to static site (Azure blob)
         run: hugo deploy --maxDeletes -1
