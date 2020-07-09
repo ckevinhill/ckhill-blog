@@ -3,6 +3,7 @@ title = "ckhill.com"
 # for smart copyright line, leave this blank and check [params.copyright]
 copyright = ""
 
+# Theme
 theme = "minimo"
 
 disqusShortname = ""
