@@ -49,6 +49,7 @@ I am assuming that I will be able to integrate Jupyer Notebook outputs (exported
 There is still alot of tweaking/configuration that I need to do for Hugo:
 * Implement Google Analytic tracking
 * Better understand how taxonomies are managed (i.e. what is the difference between a tag, category and series?)
+* What can be configured in the front matter of a post and specifically what does the slug parameter do?
 * Modify design templates to eliminate some of the things that annoy me (extra spacing, favicon, etc.)
 * Figure out how to get Search to work with a static website.
 

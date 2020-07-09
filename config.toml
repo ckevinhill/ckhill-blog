@@ -128,10 +128,10 @@ tag = "tags"
 page = "/:slug/"
 
 [[menu.main]]
- name = "HOME"
- weight = -10
- identifier = "home"
- url = "https://blog.ckhill.com"
+# name = "HOME"
+# weight = -10
+# identifier = "home"
+# url = "https://blog.ckhill.com"
 
 [blackfriday]
 hrefTargetBlank = true
