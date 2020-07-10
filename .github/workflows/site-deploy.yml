@@ -52,7 +52,7 @@ jobs:
 
       - name: Purge CDN
         run:
-          az cdn endpoint purge -n ckhillblog.azureedge.net --profile-name ckhillblog --content-paths "/*" --resource-group ckhill-site --no-wait
+          az cdn endpoint purge -n ckhillblog --profile-name ckhillblog --content-paths "/*" --resource-group ckhill-site --no-wait
         
       - name: Azure service principal logout
         run: |
