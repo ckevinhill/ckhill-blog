@@ -43,3 +43,17 @@ jobs:
         env:
           AZURE_STORAGE_ACCOUNT: ${{ env.AZURE_STORAGE_ACCOUNT }}
           AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+
+    # Invalidate CDN
+    - name: Azure service principal login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZ_CDN_APP_CREDENTIALS }}
+
+    - name: Purge CDN
+      run:
+        az cdn endpoint purge -n ckhillblog.azureedge.net --profile-name ckhillblog --content-paths "/*" --resource-group ckhill-site --no-wait
+        
+    - name: Azure service principal logout
+      run: |
+        az logout
