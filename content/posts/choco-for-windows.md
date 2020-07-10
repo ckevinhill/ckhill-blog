@@ -5,9 +5,9 @@ tags: ["devops"]
 draft: false
 ---
 
-I recently got a new computer [Dell Precision 5540](https://www.dell.com/en-sg/work/shop/workstations/precision-5540-mobile-workstation/spd/precision-15-5540-laptop) so I needed to re-install all the applications I use.
+I recently got a new computer ([Dell Precision 5540](https://www.dell.com/en-sg/work/shop/workstations/precision-5540-mobile-workstation/spd/precision-15-5540-laptop)) so I needed to re-install all the applications I use.
 
-Typically I would go site to site downloading installation packages and then clicking through various "OK" and "I agree" buttons.  However I stumbled across [Chocolatey](https://chocolatey.org/) which is a package manager for Windows - similar to something like apt-get or pip.
+Typically I would go site-to-site downloading installation packages and then clicking through various "OK" and "I agree" buttons.  However, I stumbled across [Chocolatey](https://chocolatey.org/) which is a package manager for Windows - similar to something like apt-get or pip.
 
 My experience so far has been very positive.  I've been able to install VS Code, Miniconda3, Notepad++, Hugo, Firefox and a few other applications with no issue.
 
