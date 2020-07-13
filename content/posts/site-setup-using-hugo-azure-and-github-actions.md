@@ -26,7 +26,9 @@ I also occasionally needed to reference the following as my Markdown is really r
 
 * [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
-The GitHub repository behind this site is now at [ckevinhill/ckhill-blog](https://github.com/ckevinhill/ckhill-blog).
+The GitHub repository behind this site is now at [ckevinhill/ckhill-blog](https://github.com/ckevinhill/ckhill-blog).  
+The Azure blob endpoint is [blogckhillcom](https://blogckhillcom.z13.web.core.windows.net).  
+The CDN endpoint is [ckhill](https://ckhillblog.azureedge.net).
 
 ### Tooling
 
@@ -53,4 +55,4 @@ There is still alot of tweaking/configuration that I need to do for Hugo:
 * Modify design templates to eliminate some of the things that annoy me (extra spacing, favicon, etc.)
 * Figure out how to get Search to work with a static website.
 
-
+Additional post on CDN Invalidation can be found [here]( {{< relref "posts/azure-cdn-invalidation" >}})
