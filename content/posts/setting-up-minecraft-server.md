@@ -38,4 +38,4 @@ I wanted to make it easier for the kids to configure their tablets for connectio
 
 During quarantine and our move to Singapore this has been the best $2/month I've ever spent.  The kids have enjoyed connecting with each other and their cousins remotely to build a persistent, shared world.  Additionally I have started playing some with them from my mobile phone (they are using Fire tablets).  This is a good way to kill a few hours per day in quarantine or we've even used it while waiting in hotel/government lobbies waiting for paperwork to be completed.  Pretty much anywhere there is a Wifi connection (which is everywhere now-a-days) they can connect and pick up on their builds.
 
-The only real downside is that they keep stealing all of the diamonds and obsidian from my chests ;)h.  
+The only real downside is that they keep stealing all of the diamonds and obsidian from my chests ;).  
