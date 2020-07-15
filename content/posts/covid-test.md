@@ -2,9 +2,10 @@
 title: "Covid Test Day"
 date: 2020-07-15T13:50:57+08:00
 draft: false
+tags: ["expat"]
 ---
 
-###Day 11 of Singapore quarantine: Covid test day
+### Day 11 of Singapore quarantine: Covid test day
 
 After 11 days of our 14 day quarantine today is probably the most important - today Katie and I do our official "swab" tests.  Overall the process was pretty straight-forward but I'll outline it below.
 
