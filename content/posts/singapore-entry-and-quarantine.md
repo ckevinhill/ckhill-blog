@@ -1,7 +1,6 @@
 ---
 title: "Singapore Quarantine Experience"
 date: 2020-07-08T17:25:48+08:00
-draft: true
 tags: ["expat"]
 ---
 
