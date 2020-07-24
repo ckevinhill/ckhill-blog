@@ -21,7 +21,7 @@ Nothing much exciting happened during the 14 days.  A typical day would involve:
 * Showers
 * Bed-time around 8:00
 
-Katie and the kids didn't like a majority of the meals so we heavily used Grab Food, Panda Food, Amazon Now & RedMart for food subsidies.  We has a strong, positive impact on the Singapore economy.  We ordered chips, cheese, 5 Guys, milkshakes, grapes and lots of other "necessities" during our quarantine time.  Since Katie's computer was still in storage we also bought a [Dell Inspiron 7000 2-in-1](https://www.dell.com/en-sg/shop/laptops/new-13-2-in-1-7300/spd/inspiron-13-7300-2-in-1-laptop) which has worked out really well.
+Katie and the kids didn't like a majority of the meals so we heavily used Grab Food, Panda Food, Amazon Now & RedMart for food subsidies.  We have had a strong, positive impact on the Singapore economy.  We ordered chips, cheese, 5 Guys, milkshakes, grapes and lots of other "necessities" during our quarantine time.  Since Katie's computer was still in storage we also bought a [Dell Inspiron 7000 2-in-1](https://www.dell.com/en-sg/shop/laptops/new-13-2-in-1-7300/spd/inspiron-13-7300-2-in-1-laptop) which has worked out really well.
 
 I also worked most of the days in quarantine (at least partially).  It was nice to be able to work in the same time-zone as the meetings and people I was working with after a few months of working Asia time from the US.  Unfortunately the hotel wifi was not great most of the time so conference calls were often interrupted - so still not the best work experience ever (plus the challenge of occasional Minecraft breaks).  Katie spent alot of time looking at apartments for our future house-hunting.
 
