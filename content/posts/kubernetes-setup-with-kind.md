@@ -1,7 +1,7 @@
 ---
 title: "Local Kubernetes Setup with Kind"
 date: 2020-08-13T19:54:38+08:00
-draft: true
+draft: false
 tags: ["devops"]
 ---
 
