@@ -61,13 +61,13 @@ Having a dashboard for Kubernetes is helpful to review Pods and resource usage w
 
 This downloads the dashboard deployment YAML and executes deployment within the Kubernetes cluster.  You can now view your deployed Dashboard Pod via `kubectl get namespaces` and `kubectl get pods -n kubernetes-dashboard`.
 
->Almost all kubectl take the *-n* namespaace option.  If you get tired of adding -n to all commands you can set a default namespace with `kubectl config set-context --current --namespace=kube-system`.
+>Almost all kubectl commands take the *-n* namespaace option.  If you get tired of adding -n to all commands you can set a default namespace with `kubectl config set-context --current --namespace=kube-system`.
 
 To access our new dashbaord we need to launch a Proxy that allows access to the Kubernetes network.  This can be done via `kubectl proxy` which will enable you to access the dashboard via:
 
 `http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/`
 
->When you first access your Dashboard you will be greated with a message requiring you to select a method of authentication.  You should see *Every Service Account has a Secret with valid Bearer Token that can be used to log in to Dashboard. To find out more about how to configure and use Bearer Tokens, please refer to the Authentication section* as one of the options.
+>When you first access your Dashboard you will be greated with a message requiring you to select a method of authentication.  You should see an option to use a Service Account Secret Bearer Token.
 
 In order to provide an authentication token we will:
 1. Create a cluster service account named *dashboard-admin-sa* via `kubectl create serviceaccount dashboard-admin-sa`
@@ -86,9 +86,9 @@ Unfortunately when using Docker Desktop there is an issue where [TLS certificate
 
 As a workaround we can download the metric-server YAML file from `https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml` and modify it with the `kubelet-insecure-tls=true` argument which allows the container to ignore the TLS issues.
 
-I have incorporated this change into YAML file at [https://github.com/ckevinhill/ckhill-blog/blob/master/static/files/metrics-server.yaml](https://github.com/ckevinhill/ckhill-blog/blob/master/static/files/metrics-server.yaml)
+I have incorporated this change into YAML file [metrics-server.yaml](https://raw.githubusercontent.com/ckevinhill/ckhill-blog/master/themes/minimo/static/files/metrics-server.yaml)
 
-You can now deploy the metrics-service within the Kind cluster via `kubectl apply -f https://github.com/ckevinhill/ckhill-blog/blob/master/content/resources/file/metrics-server.yaml`
+You can now deploy the metrics-service within the Kind cluster via `kubectl apply -f https://raw.githubusercontent.com/ckevinhill/ckhill-blog/master/themes/minimo/static/files/metrics-server.yaml`
 
 
 ### Alternative approach for deployments
