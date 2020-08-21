@@ -4,13 +4,14 @@ date: 2020-08-21T09:09:28+08:00
 tags: ["devops", "tutorial"]
 ---
 
-In a [previous post](kubenetes-setup-with-kind) we setup a basic Kubernetes cluster on our local development environment using *Kubernetes in Docker*, a.k.a KinD (which is a cute but extremely google-unfriendly name).
+In a [previous post](/posts/kubenetes-setup-with-kind/) we setup a basic Kubernetes cluster on our local development environment using *Kubernetes in Docker*, a.k.a KinD (which is a cute but extremely google-unfriendly name).
 
 Now we will do the next simplest possible thing to make sure we understand the basics of how to use our Kubernetes cluster - deploy a [nginx webserver](https://www.nginx.com/).
 
 ### Create a persistent storage layer
 
-First, we are going to create a persistent storage volume within Kubernetes.  This will allow us to attach storage to our containers that persists beyond the life of the container itself.  This can be really useful to centralize logging or to create a set of files that you want to possibly re-use in different container configurations.  For instance in this case we will store the html files that will be stored by our webserver on a persistent location.  This way we can start, kill, and redeploy our webserver without worrying about losing any content.  Another common approach would be to store our html content in git and have our containers automatically download from git.
+First, we are going to create a persistent storage volume within Kubernetes.  This will allow us to attach storage to our containers that persists beyond the life of the container itself.  This can be really useful to centralize logging or to create a set of files that you want to possibly re-use in different container configurations.  For instance in this case we will store the html files that will be stored by our webserver on a persistent location.  This way we can start, kill, and redeploy our webserver without worrying about losing any content.  
+> Another common approach to make your content or code avaiable within a container would be to store our html content in git and have our containers automatically download from git.  This is particularly useful if using a [GitOps](https://www.weave.works/technologies/gitops/) approach.
 
 We will use the local filesystem of our Node (which is hosted on Docker) as our persistent volume:  
 `docker exec -it kind-control-plane /bin/bash`  
