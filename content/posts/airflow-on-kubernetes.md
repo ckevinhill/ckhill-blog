@@ -4,23 +4,23 @@ date: 2020-08-22T08:44:55+08:00
 tags: ["tutorial", "devops"]
 ---
 
-[Apache Airflow](https://airflow.apache.org/) has emerged a the de-facto way to configure, orchestrate and deploy workflows.  When combined with Kubernetes, Airflow can provide a highly-scalable, modular framework for the deployment of Data Science pipelines.  This post will review steps to deploy Airflow into our local development Kubernetes cluster that was setup in this [previous post](/posts/kubenetes-setup-with-kind/).
+[Apache Airflow](https://airflow.apache.org/) has emerged a the de-facto way to configure, orchestrate and deploy workflows.  When combined with Kubernetes, Airflow can provide a highly-scalable, modular framework for the deployment of Data Science pipelines.  This post will review steps to deploy Airflow into our [local development Kubernetes cluster](/posts/kubernetes-setup-with-kind/).
 
 ### Apache Airflow
 
 Given its popularity there are a ton of posts that provide [background information on Airflow](https://towardsdatascience.com/a-complete-introduction-to-apache-airflow-b7e238a33df).  Core components of Airflow include:
 
-* Operators - the implementation of a wrapper to execute a single task.  Examples of Airflow Operators would include BashOperator, PythonOperator & KubenetesPodOperator.
-* Task - a single idempotent unit of work that is executed within an Airflow workflow (aka DAG).
-* DAG (Directed acyclic graph) - a combination of Tasks (i.e. Operators) that have been connected in an ordered approach.
-* Scheduler - an Airflow process that is responsible for running DAGs at the time they are scheduled (similar to Cron).
-* Workers - spawned resources that host/execute Tasks within Airflow (most relevant in the context of a cluster environment).
-* WebUI - UI used to configure and view DAG status.
-* Executor - responsible for executing the individual Operators configured in the DAG when prompted by the Sceduler.  Common Executors include SequentialExecutor, CeleryExecutor & KubernetesExecutor.  For more information about Executors read [this article](https://www.astronomer.io/guides/airflow-executors-explained/).
+* **Operators** - the implementation of a wrapper to execute a single task.  Examples of Airflow Operators would include BashOperator, PythonOperator & KubenetesPodOperator.
+* **Tasks** - a single idempotent unit of work that is executed within an Airflow workflow (aka DAG).
+* **DAGs** (Directed acyclic graph) - a combination of Tasks (i.e. Operators) that have been connected in an ordered approach.
+* **Scheduler** - an Airflow process that is responsible for running DAGs at the time they are scheduled (similar to Cron).
+* **Workers** - spawned resources that host/execute Tasks within Airflow (most relevant in the context of a cluster environment).
+* **WebUI** - UI used to configure and view DAG status.
+* **Executor** - responsible for executing the individual Operators configured in the DAG when prompted by the Sceduler.  Common Executors include SequentialExecutor, CeleryExecutor & KubernetesExecutor.  For more information about Executors read [this article](https://www.astronomer.io/guides/airflow-executors-explained/).
 
 ![Airflow diagram](https://miro.medium.com/max/624/1*aZp4VkdXyHE_qlJTLTqY3Q.png)
 
-In a production Kubernetes environment we would most likely use KubernetesExecutor.  However given this is just a single Node local cluster we will deploy Airflow using the CeleryExecutor.  This will provide support for parallel Task execution via the Celery workers and will still allow us to use the KubernetesPodOperator to execute Containers within a DAG if desired.  Executor management is mostly transparent to the user so DAGs that run on our local development environment will require not modification when deployed to production KubernetesExecutor environment (Tasks will just be deployed to Kubernetes Pods instead of Celery workers).  The only watch-out is that deployment with CeleryExecutor will create a large infrastructure footprint (redis, flower monitoring service, and workers) which could result in additional resource usage on your local machine.
+In a production Kubernetes environment we would most likely use KubernetesExecutor.  However given this is just a single Node local cluster we will deploy Airflow using the CeleryExecutor.  This will provide support for parallel Task execution via the Celery workers and will still allow us to use the KubernetesPodOperator to execute Containers within a DAG if desired.  Executor management is mostly transparent to the user so DAGs that run on our local development environment will require not modification when deployed to production KubernetesExecutor environment (Tasks will just be deployed to Kubernetes Pods instead of Celery workers).  The only watch-out is that deployment with CeleryExecutor will create a larger infrastructure footprint (redis, flower monitoring service, & workers) which could result in additional resource usage on your local machine.
 
 Within the Airflow system DAGs are kept in mulitple locations including on the Scheduler, Web and Worker nodes.  In order to have synchronized files there are two main strategies used:
 1. Shared file-system - a shared file-system asset that can be accessed via the different Nodes.
