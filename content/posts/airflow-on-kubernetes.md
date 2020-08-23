@@ -48,7 +48,7 @@ The values.yaml file is used to specify configuration variables for helm and can
 If you want to see what generated deployment files will be without installing them you can use the *template* option with helm.  The example below shows how to generate deployment files into current (.) directory and specifies a few configuration variables on the command line vs. using values.yaml:  
 `helm template --set airflow.executor=KubernetesExecutor --set workers.enabled=false --set flower.enabled=false --set redis.enabled=false stable/airflow --namespace airflow --output-dir .`
 
-For this installation we will mostly use the defaults and only modify a few configuration parameters - specifying that we will use git-sync, associated repository details, and provides a service account name to use.  Additionally I set the postgres database to not enable persistence - meaning it will not create a persistent volume for data storage.  I have done this so that if I delete and re-deploy no history is kept from previous running instances.
+For this installation we will mostly use the defaults and only modify a few configuration parameters - specifying that we will use git-sync, associated repository details, and providing a service account name to use.  Additionally I set the postgres database to not enable persistence - meaning it will not create a persistent volume for data storage.  I have done this so that if I delete and re-deploy no history is kept from previous running instances.
 
 ``` yaml
 dags:
@@ -82,7 +82,7 @@ Congratulations. You have just deployed Apache Airflow!
 
 ### KubernetesPodOperator
 
-The KubernetesPodOperator is a specific Operator that allows DAGs to created Kubernetes Pods that run specific containers.  The idea is that you can containerize specific functionality, push container to image repository and then launch the container into the Kubernetes cluster.  To enable the KubernetesPodOperator to have permission to create new Pods within the cluster we need to give our service account *airflow-sa* cluster permissions.
+The KubernetesPodOperator is a specific Operator that allows DAGs to create Kubernetes Pods that run specific containers.  The idea is that you can containerize specific functionality, push container to image repository and then launch the container into the Kubernetes cluster.  To enable the KubernetesPodOperator to have permission to create new Pods within the cluster we need to give our service account *airflow-sa* cluster permissions.
 
 `kubectl apply -f https://raw.githubusercontent.com/ckevinhill/airflow-kubernetes-example/master/create-service-account-role-bindings.yaml`
 
@@ -103,7 +103,7 @@ You should now be able to view the Airflow UI by first enabling port-forwarding 
 You can also open a terminal shell to scheduler or work nodes which can be helpful to access logs or confirm system settings and pod environmental variables or other diagnostics:  
 `kubectl exec -it airflow-scheduler-6df66b4fb8-p94tb -c airflow-scheduler -n airflow -- /bin/bash`
 
-> Since each pod is running a git-sync side car container you have to specify the container you want to port-forward to using the -c <container name> option.  If you are not sure what container names are within a pod you can use the 'kubectl describe pod <pod-name> -n <namespace>` to view details including container names.
+> Since each pod is running a git-sync side car container you have to specify the container you want to terminal into using the -c <container name> option.  If you are not sure what container names are within a pod you can use the 'kubectl describe pod <pod-name> -n <namespace>` to view details including container names.
 
 There are two test DAGs in the [https://github.com/ckevinhill/airflow-kubernetes-example-dags](https://github.com/ckevinhill/airflow-kubernetes-example-dags) repository to confirm that local and Kubernetes operators are working correctly.
 
@@ -142,55 +142,8 @@ Uninstalling the Airflow deployment can be done via:
 You can then delete the airflow namespace:  
 `kubectl delete namespace airflow`
 
-> Above commands do not delete the cluster role binding as I will leave this role binding for future instances where I launch the cluster.
+> Above commands do not delete the cluster role binding as I will leave this role binding for future instances where I launch future Airflow deployments.
 
 ### Wrap-Up
 
 This completes the setup for launching an Airflow deployment with both distributed and Kubernetes based task execution.  For future projects I can clone the example repositories and change the git repository parameters to point to my DAG project files.  I should then be able to quickly launch developement deployments as needed.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"airflow.exceptions.AirflowConfigException: In kubernetes mode the following must be set in the kubernetes config section: dags_volume_claim or dags_volume_host or dags_in_image or git_repo and git_branch and git_dags_folder_mount_point"
-
-https://github.com/helm/charts/issues/22848
-
-Add to config section (overrides environmental variables for Airflow):
-
-        AIRFLOW__KUBERNETES__GIT_REPO: "https://github.com/ckevinhill/airflow-kubernetes-example-dags.git"
-        AIRFLOW__KUBERNETES__GIT_BRANCH: "master"
-        AIRFLOW__KUBERNETES__GIT_DAGS_FOLDER_MOUNT_POINT: "/opt/airflow/dags"
-
-ERROR [airflow.models.dagbag.DagBag] Failed to import: /home/airflow/.local/lib/python3.6/site-packages/airflow/example_dags/example_subdag_operator.py
-
-sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "slot_pool" does not exist
-(Background on this error at: http://sqlalche.me/e/f405)
-
-After 2 restarts seems okay -> maybe because took a bit for postgres db to come up?
-
-
-Let's make logs more persistent:
-https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
-[repo = 2 yaml files for volume and claim]
-
-Make sure that the folder shared has sufficient permissions for other processes to read.  I changed to public:
-chmod ugo+rwx [folder-name]

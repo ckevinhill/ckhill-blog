@@ -4,7 +4,7 @@ date: 2020-08-21T09:09:28+08:00
 tags: ["devops", "tutorial"]
 ---
 
-In a [previous post](/posts/kubenetes-setup-with-kind/) we setup a basic Kubernetes cluster on our local development environment using *Kubernetes in Docker*, a.k.a KinD (which is a cute but extremely google-unfriendly name).
+In a [previous post](/posts/kubernetes-setup-with-kind/) we setup a basic Kubernetes cluster on our local development environment using *Kubernetes in Docker*, a.k.a KinD (which is a cute but extremely google-unfriendly name).
 
 Now we will do the next simplest possible thing to make sure we understand the basics of how to use our Kubernetes cluster - deploy a [nginx webserver](https://www.nginx.com/).
 
