@@ -26,7 +26,7 @@ Repetitive, identical reports may indicate the opportunity to increase the granu
 
 ![Repeating bidding strategy](/images/repeating-pattern-operations.png)
 
-> This is just a small sample of reporting from that day - there were many other identical graphs present which made this pattern even more obvious.
+> This is just a small sample of reporting from that day - there were many other identical graphs present which made this pattern even more obvious.  Additionally the absolute values of the bids were different but the same pattern was present.
 
 What becomes pretty clear is that all of the keywords are following a simliar pattern.  This strongly implies that some sort of heuristical approach is being applied at a higher level.  It is very unlikely that this higher-level bidding strategy is maximally optimal for every keyword, meaning that there is opportunity to improve KPIs by applying a more granular (keyword-level) bidding strategy.  Managing a bidding strategy at a keyword level across thousands of keywords would not be feasible via human operators - requiring the application of some sort of automated, algorithmic approach (i.e. Data Science!).
 
