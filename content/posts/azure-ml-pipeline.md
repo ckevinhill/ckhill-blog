@@ -1,5 +1,5 @@
 ---
-title: "Azure Ml Pipeline"
+title: "Azure ML Pipelines"
 date: 2020-11-19T15:06:05+08:00
 tags: ["azure", "tutorial"]
 ---
@@ -27,7 +27,7 @@ A future post will cover these additional topics:
 * How to debug individual steps via unit-testing locally
 * How to use additional ML Pipeline metric logging (beyond print statements)
 
-### Loading A Data-set
+### Loading a Data-set
 
 There are multiple ways to load an initial data-set for Pipeline integestion.  In this case I went for the simplest approach and used the [ML Workspace UI](https://ml.azure.com/) to manually upload and name a reference data-set.
 
@@ -37,7 +37,7 @@ The data-set used was via https://archive.ics.uci.edu/ml/datasets/Wine+Quality a
 
 >There is an example of programmatically uploading and registering a data-set within the test_pipeline.py via the [LocalFileSystemProvider implementation](https://github.com/ckevinhill/azure-ml/blob/a5e15e36cee4ce561292839073ef77c4ccfc8a43/azure-ml-pipeline/src/azmlstep.py#L32).
 
-### Create Enviroments and Compute Resources
+### Create Enviroment & Compute Resources
 
 One of the cool things about Azure ML Pipelines (and cloud computing in general) is that you can disconnect dependencies of the code from the executional environment.  A typical PythonScripStep would entail the following:
 
@@ -119,7 +119,7 @@ A few things to note:
 
 >Examples often have the script file as one really large main() function which is a poor development practice.  You should develop a framework to more descriptively (aka less procedurally) develop your step logic.  Compare these two implementations that do the exact same thing as an example:  [Bad](https://github.com/ckevinhill/azure-ml/blob/master/azure-ml-pipeline/src/create_classification_target/create_classification_target.py) - [Better](https://github.com/ckevinhill/azure-ml/blob/master/azure-ml-pipeline/src/create_classification_target/create_classification_step.py).
 
-### Directory structure
+### Recommended directory structure
 
 I am fan of a directory structure that looks similar to the below:
 
@@ -141,7 +141,7 @@ I am fan of a directory structure that looks similar to the below:
 ```
 >I highly recommend creating an approach to unittest steps locally.  If you rely on remote debugging your development process may be significantly slowed down.  There are ways to [connect VS Code to remotely executing pipelines](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-debug-pipelines) but I have not tried them yet.
 
-### Viewing pipeline creation
+### Viewing pipeline status
 
 If you run ml-pipeline.py you should recieve status updates into terminal that will allow you to monitor pipeline creation process.  Additionally you can view the graph and status of your pipeline in the ML UI:
 
