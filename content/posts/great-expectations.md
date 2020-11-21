@@ -22,6 +22,7 @@ _During continuous learning & inference:_
 Great Expectations helps with this last point allowing the integration of "data checks" within established Data Science pipelines.  We can picture a Data Science DAG as possibly looking like the below where data validation rules are created during a training cycle and then reapplied during an inference cycle:
 
 ![DAG](/images/ge_dag.png)
+
 Visual created using the excellent [DrawIO VSCode plugin](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio).
 
 ### Example Project
