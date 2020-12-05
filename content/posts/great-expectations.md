@@ -199,6 +199,10 @@ In this case our Expectation suite is helpfully identifying that means and media
 1. We update our expectations and allow existing model to run
 2. We rebuild our model with the new data-set and set new expectations
 
+### Additional automation opportunity
+
+In the above example implementation an initial training data-set is manually validated through the use of the Exploratory Data Analytics.  This results in the analyst being responsible for the creation of the resulting expectations.  This is fine (and maybe even preferable) in the case where training is infrequent, but if data drift is expected and training is frequent this could pose a bottleneck.  It would be possible to [expand on the Great Expectations auto-scaffolding](https://docs.greatexpectations.io/en/latest/guides/how_to_guides/creating_and_editing_expectations/how_to_create_a_new_expectation_suite_without_the_cli.html) to create a consistent set of automatically generated expectations for any training data-set.  This auto-generated validation could then be used by inference to have a fully automated data quality assesment that enforced expectations between learning and inference. 
+
 ### Benefits
 
 In this particular example it would be a bad idea to use the quality prediction model based on red wine to predict on white wine so as good Data Scientists we would look to rebuild the model and re-deploy.  If this was a priority business decision being recommended it would critical that we had indication that predicted outcomes were likley to be incorrect BEFORE we act on those predictions (as opposed to learning after the fact).  [Great Expectations](https://greatexpectations.io/) helps to pre-emptively safe-guard us against issues with data-discrepencies and drift and is something that should be considered as a needed part of every ML Pipeline.
