@@ -45,6 +45,20 @@ You can confirm that the Databricks remote server service has been specified in 
 
 >Databricks-connect errors are not always super helpful.  It may indicate that 'spark.databricks.service.server.enabled true' needs to be added to configuration even if it already has.
 
+## DbUtils
+
+A [subset](https://docs.microsoft.com/en-in/azure/databricks/dev-tools/databricks-connect#limitations) of dbutils can be accessed via databricks-connect.
+
+```python
+from pyspark.dbutils import DBUtils
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.getOrCreate()
+dbutils = DBUtils(spark)
+
+dbutils.fs.ls("/")
+```
+
 ## Databricks-connect Setup (Remote Container)
 
 You can also setup databricks-connect using the awesome [Remote Dev Container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).  
