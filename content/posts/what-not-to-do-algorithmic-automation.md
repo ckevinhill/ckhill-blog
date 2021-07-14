@@ -1,6 +1,6 @@
 ---
 title: "5 Mistakes to Avoid in Algorithmic Automation"
-date: 2021-07-14T17:02:02+08:00
+date: 2021-07-13T17:02:02+08:00
 draft: false
 tags: ["datascience"]
 ---
