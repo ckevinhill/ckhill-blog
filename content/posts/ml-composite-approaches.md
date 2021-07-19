@@ -31,19 +31,19 @@ To participate fully in the hyper-connected IT products, Machine Learning produc
 
 Models are deployed via pre-created training and inference functionality that can be installed into an application.  This provides significant flexibility to using application but likely works best for smaller data-sets that would not require specific backing infrastructure.  
 
-Example: provide an installable library that will pre-generate next best product recommendation for consumers based on a standard user, product purchase history.
+__Example:__ provide an installable library that will pre-generate next best product recommendation for consumers based on a standard user, product purchase history.
 
 ## API-based deployment
 
 Model inference and training endpoints are deployed as part of a cloud-based Pipeline (e.g. Azure Workspaces or GCP Kubeflow).  This provides the most typical reapplication of the microservice design concept but does require moving application data into the ML component space which may have security or cost implications.
 
-Example: trigger training pipeline via posting of new sales data to specified blob storage, call inference API endpoint to get future sales prediction for product using most recently trained model.
+__Example:__ trigger training pipeline via posting of new sales data to specified blob storage, call inference API endpoint to get future sales prediction for product using most recently trained model.
 
 ## Platform-based deployment
 
 Model is deployed as part of an end-to-end use-case where using application (or organization) provides configuration and platform implementation is responsible for collection of data and possibly execution of operation.
 
-Example: inventory consumption prediction algorithm is provided with configuration (max bid, buffer size, etc.) as well as security permissions (tokens, etc.) to access current inventory warehouse.  Algorithm predicts requirements and submit orders to down-stream systems and provides summary of operations to planning system.
+__Example:__ inventory consumption prediction algorithm is provided with configuration (max bid, buffer size, etc.) as well as security permissions (tokens, etc.) to access current inventory warehouse.  Algorithm predicts requirements and submit orders to down-stream systems and provides summary of operations to planning system.
 
 # Increased requirements for MLOps
 
