@@ -22,6 +22,8 @@ Ultimately this results in a downward spiral:
 
 This can completely bottleneck organization efforts to shift to data-driven/algorithm-driven business processes as well as starve your innovation pipeline.
 
+Possibly even worse this can lead to the "shadow" deployment of ML solutions that may have significant quality risks or regulatory risks.  Because of work-arounds and customized development/deployment, Leadership may have little visiblity to the risk involved with the model deployment.
+
 ## Root Cause
 
 Ultimately, this is driven by a lack of standardizaion in Data Science projects.  When you have not standardized your project structure, supporting platform and deployment architectures you are completely dependant on a human-driven (form-based) approach for governance over-sight.  As indicated above, this will almost always lead to a non-ideal outcome.  The Data Science organization should take the lead to define these standards ("eat your own dog food") in conjunction with supporting AI Engineering/MLOps organizations.
@@ -36,7 +38,11 @@ I don't think you can overstate the advantages of automation in terms of deliver
 * Model Catalog population - automate the collection of model meta-data into Model Catalog at creation time.
 * Model performance monitoring - automatically integrate ongoing model telemetrics or provide access to standardized libraries to support model telemetric collection.
 
-Most of the above _should_ be considered a requirement for any modern ML project but are often dropped due to capacity or knowledge constraints.  Automation (and standardization) can turn this from this from a low-compliance, high-effort activity into a delighter for Data Scientists, Engineering and Governance organizations.  This is likely not a one-off effort but wil require continual organization effort to continue to reduce manual effort over time.
+Most of the above _should_ be considered a requirement for any modern ML project but are often dropped due to capacity or knowledge constraints (stewardship and quality as an after-thought).  Automation (and standardization) can turn this from this from a low-compliance, high-effort activity into a delighter for Data Scientists, Engineering and Governance organizations.  
+
+Ultimately this increases efficiency - but also reduces chances for bugs via reapplication, introduces levers for quality assessment via "batteries included" templates, and increases centralized visibility via consistent, easily understood approaches and pre-integrated metric and meta-data collection.
+
+This is likely not a one-off effort but wil require continual organization effort to continue to reduce manual effort over time.
 
 ## Trade-off
 
@@ -57,3 +63,12 @@ Data Science often prioritizes rapid experimentation and believes that standardi
 ### Internal processes
 
 It is un-realistic to believe that you will be able to eliminate all existing internal processes from project life-cycle.  Cross-functional/organizational efforts need to be created to eliminate manual processes that often show up at the seams of automation efforts.  Expectations should be set that customized development will be required to automate data/process hand-off across organizations (i.e. the answer is not to buy an external "black box" solution that does not integrate with internal processes.)
+
+## Non-Automatable Processes
+
+There are some processes that may not be automated.  In these instances I would recommend a shift from "pre-approval" processes to "post-review" processes.  For example if you want to have oversight on security group creation and can not automate you would have 2 options:
+
+* Require manager/org approval before group is created
+* Create group but confirm manager/org approval as a follow-up
+
+In most instances (low/medium risk) there is significant advantage in enabling the employee with follow-up checks ("trust but verify") as opposed to creating potential long-lead road blocks where nothing can move forward.
