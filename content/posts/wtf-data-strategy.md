@@ -31,6 +31,6 @@ Of course, there are some instances where Corporate Data Strategy may impact you
 
 ## Balancing Transformation vs. Reality
 
-One of the hardest parts of creating a Data Strategy (and any Strategy) is balancing a need to push for constructive disruption vs. pushing so far that developed strategies are un-realistic.  If you are limiting Strategy only to data-sets that you have or data-sets that are commoditized it is likely that your strategy will have limited value in driving competitive advantage.  However, if your Data Strategy asks for impossible data-sets with zero change of acquisition you will not achieve anything beyond creating pretty documentation.
+One of the hardest parts of creating a Data Strategy (and any Strategy) is balancing a need to push for constructive disruption vs. pushing so far that developed strategies are un-realistic.  If you are limiting Strategy only to data-sets that you have or data-sets that are commoditized it is likely that your strategy will have limited value in driving competitive advantage.  However, if your Data Strategy asks for impossible data-sets with zero chance of acquisition you will not achieve anything beyond creating pretty documentation.
 
 To this end I would recommend 80% of your Strategy being "reasonably attainable" and 20% being more "moon-shot" oriented.  The Data Strategy should be updated on a Quarterly basis to review progress vs. data aquisition goals and use-case activation and to adjust Strategies if found to be set at too low a bar or if objectives have become determined as impossible.
