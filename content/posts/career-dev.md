@@ -12,7 +12,7 @@ Pursue roles that take advantage of your skills, that you enjoy and that are in 
 
 ## In Pursuit of Promotions
 
-I have found that people that enjoy there work tend to perform better than those that don't.  This should be somewhat obvious as no one is likely to excel doing something they don't actually enjoy.  By corollary though, doing what you enjoy also leads to faster career development (assuming performance correlates to advancement).  There are many examples where I have had career conversations that have started with the question "What role should I take next to be promoted?" and this feels like the wrong approach.  Instead focusing on roles that you enjoy, and thus are a high performer, is the best route to promotion.
+I have found that people that enjoy their work tend to perform better than those that don't.  This should be somewhat obvious as no one is likely to excel doing something they don't actually enjoy.  By corollary though, doing what you enjoy also leads to faster career development (assuming performance correlates to advancement).  There are many examples where I have had career conversations that have started with the question "What role should I take next to be promoted?" and this feels like the wrong approach.  Instead focusing on roles that you enjoy, and thus are a high performer, is the best route to promotion.
 
 ## Maxmize Your Value
 
