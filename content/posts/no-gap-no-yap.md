@@ -30,10 +30,10 @@ Without one of the above triggers generalized review meetings should be avoided.
 
 For this to work the following must exist:
 
-1 Clear objectives for a team
-2 Ability to measure progress vs. team objectives
-3 Management trust of team
-4 Team's belief that asking for help will not be seen as failure
+1. Clear objectives for a team
+2. Ability to measure progress vs. team objectives
+3. Management trust of team
+4. Team's belief that asking for help will not be seen as failure
 
 In many cases not enough time is spent on success metric creation and can result in creating KPIs that can not even be reasonably measured.  This leads to a destructive cycle where management is not able to view team progress vs. goal and instead requires reviewing tactical execution.  This ultimately creates a micro-management arranagement that removes team empowerment and reduces team's likeliness to ask for help when they actually need it.
 
@@ -41,4 +41,4 @@ Ideally a team's progress is can be viewed with no additional team effort (i.e. 
 
 ### Where not to apply "NG,NY" philosophy
 
-There are a lot of meetings where a "no gap, no yap" philosophy probably should not be applied - in particular meetings that are not outcome oriented and/or are not measureable by nature.  Examples would include things like 1-1 manager meetings and innovation-oriented meetings where there is value in the poor connection and conversation.
+There are a lot of meetings where a "no gap, no yap" philosophy probably should not be applied - in particular meetings that are not outcome oriented and/or are not measureable by nature.  Examples would include things like 1-1 manager meetings, deployment meetings and innovation brain-storming meetings where there is value in the connection and conversation.
