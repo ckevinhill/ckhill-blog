@@ -9,7 +9,7 @@ excludeParents = ["page"]
 
 [recent_posts]
 title = ""
-length = 10
+length = 20
 excludeTypes = ["page"]
 
 [search]
