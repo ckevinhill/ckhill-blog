@@ -1,7 +1,7 @@
 ---
 title: "Adding Pi-Hole to Network"
 date: 2021-11-27T08:44:55+08:00
-tags: [other"]
+tags: [other", "expat"]
 ---
 
 Being an expat basically means you need to also be a Network Engineer.  Between needing to access home country banks, keeping the kids happy with streaming services, and making sure that you are able to have quality video chats with family back home, your home internet connection and network play an important role in your domestic happiness.
