@@ -22,7 +22,7 @@ Provides coverage for most of the house and is not routed via VPN so represents 
 
 ### RaspberryPi
 
-I have a RaspberryPi attached to network for backup management purposes as [previously summarized here](posts/duplicati-on-omv/).  Since this was upgraded to operate via Portainer (Docker management UI) we can now add additional services to the Pi.
+I have a RaspberryPi attached to network for backup management purposes as [previously summarized here](/posts/duplicati-on-omv/).  Since this was upgraded to operate via Portainer (Docker management UI) we can now add additional services to the Pi.
 
 ## Adding Pi-Hole
 
