@@ -1,6 +1,6 @@
 ---
 title: "CIRI Application - Kubernetes (GKE) + TensorFlow"
-date: 2020-12-12T06:42:55+08:00
+date: 2020-12-10T06:42:55+08:00
 tags: ["datascience", "gcp", "mlops"]
 ---
 
