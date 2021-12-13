@@ -18,10 +18,10 @@ Poor waste management is linked to significant environmental risks, such as clim
 
 The introduction of a "single-stream" approach to recycling where materials are not pre-sorted into common recycling classes like paper, aluminum, metal, and glass has greatly increased the rate of participation in recycling programs - but has led to [substantial incrases in contamination as well](http://mediaroom.wm.com/the-battle-against-recycling-contamination-is-everyones-battle/).
 
-Recycling contamination occurs when non-recyclable materials are mixed with recyclable materials.  Current estaimtes are that [1 in 4 items inserted into a recycling bin are inappropriate for recycling](http://mediaroom.wm.com/the-battle-against-recycling-contamination-is-everyones-battle/).  [Contamination can inadvertently lead to](https://www.valleywasteservice.com/valley-waste-news/what-happens-if-you-put-non-recyclable-items-into-recycling-4034):
+Recycling contamination occurs when non-recyclable materials are mixed with recyclable materials.  Current estimates are that [1 in 4 items inserted into a recycling bin are inappropriate for recycling](http://mediaroom.wm.com/the-battle-against-recycling-contamination-is-everyones-battle/).  [Contamination can inadvertently lead to](https://www.valleywasteservice.com/valley-waste-news/what-happens-if-you-put-non-recyclable-items-into-recycling-4034):
 
 * Increased cost of recycling as more effort is required for waste sorting - which can lead to non-viable economic models for local recycling.
-* Reduces over-all recycling possible via contamination of recyclable items to the point where they are no longer suitable for recycling.
+* Reduces over-all quantity of recycled material as leads to contamination of recyclable items to the point where they are no longer suitable for recycling.
 * Potential damage to recyling equipment or danger to recycling plant employees.
 
 In many cases consumers are unaware of the negative impacts of recycling contamination and are well intented by trying to add items to recycling bins.  Additionally the introduction of varied plastics and packaging has [led to increased difficulty in identifying recycable vs. non-recylcable items](https://www.nytimes.com/2021/09/08/climate/recycling-california.html).
@@ -36,7 +36,7 @@ The dataset used for training included 2467 images from [Trashnet](https://githu
 
 Training dataset was expanded with additional curated images from the [Waste Classification v2 dataset](https://www.kaggle.com/techsash/waste-classification-data) which included images labeled as Recycleable, Non-Recyclable or Organic.  As the Waste Classification dataset was primarily gathered via web-crawling we curated a subset of the images and placed them within the (existing) trash category or in the (newly created) organic category.
 
-Given the limited availability of annotated recyclables datasets, we will also look to provide ongoing enhancement of training data via incorporate a "user upload" capaabiltiy into application that allows end-users to directly annotate and submit images.
+Given the limited availability of annotated recyclables datasets, we will also look to provide ongoing enhancement of training data via incorporating a "user upload" capability into the application that allows end-users to directly annotate and submit images.
 
 | Dataset | Labels | Quality |
 | - | - | - |
@@ -165,7 +165,7 @@ The application also leverages two cloud storage resources:
 | Image Store | canirecycleit-data | Provides storage of raw images used as input for training where "folders" reflect the classification. |
 | Artifact Store | canirecycleit-artifactstore |Stores serialized metadata and model files from execution of model-pipeline. |
 
-Initial Kubernetes (GKE) cluster provisioning can be executed via [Ansible](https://github.com/canirecycleit/ciri_app/blob/master/k8s_deployment/ansible/deploy-k8s-cluster.yml) or [shell scripts](https://github.com/canirecycleit/ciri_app/blob/master/k8s_deployment/create_cluster.sh) to enable an autoamted approach to infrastructure provisioning.
+Initial Kubernetes (GKE) cluster provisioning can be executed via [Ansible](https://github.com/canirecycleit/ciri_app/blob/master/k8s_deployment/ansible/deploy-k8s-cluster.yml) or [shell scripts](https://github.com/canirecycleit/ciri_app/blob/master/k8s_deployment/create_cluster.sh) to enable an automated approach to infrastructure provisioning.
 
 ### Application Deployment & Updating
 
@@ -191,17 +191,17 @@ A very simple MVP homepage that provides access to the core functionality to tak
 
 ![homepage](/images/ciri-ss-1.png)
 
-Example of indicating that an Organic item is not recylcable:
+Example of an Organic item is not recylcable:
 
 ![organic-no](/images/ciri-ss-2.png)
 
-Example of indicating that Cardboard is recycable:
+Example of a Cardboard item that is recycable:
 
 ![cardboard-yes](/images/ciri-ss-3.png)
 
 ### Application Upload Page
 
-Given that recyclables annotated image data is relatively limited and of varied quality we will determined that it was necessary to provide an ongoing way for users to enrich the annotated data-set so a basic upload form is provided to add new images to the CIRI Image data-store.  The form provides a drop-down to select from all defined classification categories as well as a catch-all "other" category.
+Given that recyclables-annotated image data is relatively limited and of varied quality we determined that it was necessary to provide an ongoing way for users to enrich the annotated data-set so a basic upload form is provided to add new images to the CIRI Image data-store.  The form provides a drop-down to select from all defined classification categories as well as a catch-all "other" category.
 
 ![upload](/images/ciri-ss-4.png)
 
@@ -211,7 +211,7 @@ _Models are retrained weekly to take advantage of any newly uploaded images that
 
 ### Model Management (MLFlow)
 
-Weekly (or manually triggered) model builds are stored using [MLFlow](https://www.mlflow.org/) for both model build experiment tracking as well as model serialization as a model repository.  This allows continual training and model performance metric capture but an operationally controllable approach for "promoting" experimental models into Production.  CIRI administrators can log into the MLFlow interface, view models that are avaialble for use and then move that Model through a lifestage (staging, production, archival) as part of the application management process - all without having to redeploy any application code.
+Weekly (or manually triggered) model builds are stored using [MLFlow](https://www.mlflow.org/) for both model build experiment tracking as well as model serialization as a model repository.  This allows continual training and model performance metric capture but an operationally controllable approach for "promoting" experimental models into Production.  CIRI administrators can log into the MLFlow interface, view models that are available for use and then move that Model through a lifestage (staging, production, archival) as part of the application management process - all without having to redeploy any application code.
 
 History of model run experiments:
 
