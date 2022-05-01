@@ -289,3 +289,81 @@ and the following service definition can be added to project docker-compose file
 ```
 
 Note that the service is actually deployed to "host" network_mode so that advertise Broker endpoints ("localhost") will function correctly even though Streaming App is deployed into container.
+
+### Mock Application Event Generation
+
+We will create an Event Generator that can provide a "mock" implementation of our REST Api that results in production of events into Kafka topic.  The events will be encapsulated in an Event class containing the following attributes.
+
+* deviceid - representing an originating device
+* timestamp - time of event creation
+* event_type - representing a particular type of event (for business logic routing)
+* event_status - representing an event status (warning, info, debug)
+
+Event class implementation below:
+
+```python
+class Event:
+    """Event class for application events."""
+
+    def __init__(self, deviceid, timestamp, event_type, event_status) -> None:
+        self.deviceid = deviceid
+        self.timestamp = timestamp
+        self.event_type = event_type
+        self.event_status = event_status
+```
+
+## Generating Events
+
+### Seeding initial events
+
+The app/generator.py program can be used to generate initial events into the `raw_events` topic (arguments -ec = event count to generator, -tc = threads to use for generation).  Events will be randomly generated with pauses between each event.
+
+![generator](/images/cp-generator-output.png)
+
+The running streaming app can be monitored with `docker logs -f streaming_app`.  Console output shows individual events being processed as soon as added to topic by generator application.  Events matching business logic criteria are then syndicated to `processed_events`.
+
+![streaming](/images/cp-streaming-output.png)
+
+We can confirm that all events have been added to `raw_events` and `processed_events` via Control Center:
+
+![processed](/images/cp-processed-output.png)
+
+### HDFS Raw Events Storage
+
+We can check in HDFS to make sure that all `raw_events` are being syndicated to HDFS via the HDFS Sink.
+
+Connect to Hadoop NameNode container:
+
+```bash
+docker exec -it -u 0 namenode bash
+```
+
+List .json files in HDSF topic directory:
+
+```bash
+hadoop fs -ls /topics/raw_events/partition=0
+```
+
+![hdfs](/images/cp-hdfs-output.png)
+
+### Elastic Search Index
+
+We can similarly confirm that events are being syndicated to ElasticSearch via ElasticSearch API:
+
+```bash
+curl localhost:9200/processed_events/_search | jq
+```
+
+![elastic-api](/images/cp-elastic-api-output.png)
+
+We could also use Kibana "data explore" functionality to view index:
+
+![elastic-discover](/images/cp-elastic-discover.png)
+
+### Kibana Dashboard Visualization
+
+For final aspect of architecture we can create a Dashboard to visualize the processed events syndicated to ElasticSearch.
+
+![dashbaord](/images/cp-kibana-dashboard.png)
+
+As new results are syndicated the dashboard updates in real time.
