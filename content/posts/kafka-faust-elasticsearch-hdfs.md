@@ -70,7 +70,7 @@ RUN confluent-hub install --no-prompt confluentinc/kafka-connect-hdfs3:1.1.10 \
 CMD /etc/confluent/docker/run
 ```
 
-We can the build the Dockerfile into a new image with:
+We can the build the [Dockerfile](https://github.com/ckevinhill/kafka-faust-elasticsearch-kibana-hdfs/blob/master/kafka-connect-sinks/Dockerfile) into a new image with:
 
 ```bash
 docker build -t kafka-connect-sinks .
@@ -135,6 +135,7 @@ git clone https://github.com/big-data-europe/docker-hadoop
 ```
 
 We can add the service definitions from the docker-hadoop/docker-compose.yml file as well as copy the hadoop.env file into project directory.
+Finalized docker-compose.yml can be found in [project repo](https://github.com/ckevinhill/kafka-faust-elasticsearch-kibana-hdfs/blob/master/kafka-confluent/docker-compose.yml).
 
 ### Updating deployment
 
@@ -312,6 +313,8 @@ class Event:
         self.event_status = event_status
 ```
 
+Alternatively the Kafka Connect Data Generator Source could be used as a Mock Application input.
+
 ## Generating Events
 
 ### Seeding initial events
@@ -367,3 +370,7 @@ For final aspect of architecture we can create a Dashboard to visualize the proc
 ![dashbaord](/images/cp-kibana-dashboard.png)
 
 As new results are syndicated the dashboard updates in real time.
+
+## Summary Files
+
+Project files can be found in [GitHub Repository](https://github.com/ckevinhill/kafka-faust-elasticsearch-kibana-hdfs).
