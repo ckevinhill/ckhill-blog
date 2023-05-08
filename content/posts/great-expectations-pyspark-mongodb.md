@@ -1,10 +1,10 @@
 ---
 title: "Integrating Great Expectations with MongoDB and PySpark"
 date: 2023-05-07T08:44:55+08:00
-tags: ["tutorial", "devops", "data_engineering"]
+tags: ["tutorial", "devops", "data-eng"]
 ---
 
-This project was produced as part of the final project for Harvard University’s `CSCI-E59: Designing and Developing Relational and NoSQL Databases` course.
+This project was produced as part of the final project for Harvard University’s `CSCI-E59: Designing and Developing Relational and NoSQL Databases` course.  A summarization presentation on the below can be found [here](https://github.com/ckevinhill/csci_e59_mongo_greatexp_pyspark/blob/main/presentation_material/Final%20Presentation.pptx).
 
 ## Context
 
@@ -155,6 +155,8 @@ Mongo-Express provides a more intuitive, user-friendly option vs. MongoShell pro
 
 Upon running `docker compose up` you should be able to access web-ui for Mongo-Express via `http://localhost:8081/`.
 
+If it isn't desired to run a local development enviornment, the [MongoDB Cloud Atlas](https://www.mongodb.com/cloud) service provides free MongoDB instances that can be used as an alternative.
+
 ## Data Generation via Great Expectations
 
 In order to reflect actual, expected usage a [mock data pipeline](https://github.com/ckevinhill/csci_e59_mongo_greatexp_pyspark/blob/main/src/data-pipeline.py) was created to simulate in-world data validation.
@@ -271,3 +273,189 @@ Once executed all validation result data is collected within the MongoDB verific
 ![mongo data](/images/mongo-data-collection.png)
 
 It was determined that all pipeline data should be stored in one collection given that MongoDB provides significant support for filtering, sharding and indexing and limited support for joining across different collections.  Having all validation data in one collection does not increase difficulty of reporting on one specific pipeline (scale issues can be sovled via sharding and indexing mentioned later) and greatly simplifies desired reports on total failures across all pipelines.
+
+## MongoDB Aggregation Pipelines
+
+With documents now stored in MongoDB collection we can now explore creation of Aggregate Pipeilnes (i.e. views) that can be used to provide descriptive understanding of Data Quality failures (i.e. reporting).  In this instance views are created as "non-materialized" so are processed at point of query.  If performance issues arise it would be possible to use materialized-views for improved query speed.  Code for aggregate pipline queries can be found [here](https://github.com/ckevinhill/csci_e59_mongo_greatexp_pyspark/blob/main/src/create-aggregation-pipelines.py).
+
+### Aggregate Pipeilne #1 - Pipeline Summary Statistics
+
+Our initial query will provide understanding of pipeline historical failure vs. success rate.  This pipeline is defined below and effectively groups documents by `pipeline_name` and uses the existing statistics attribute to sum `successful_expectations` and `unsuccessful_expectations`:
+
+```json
+    {
+        "$group": {
+            "_id": "$pipeline_name",
+            "ttl_expectations": {"$sum": "$statistics.evaluated_expectations"},
+            "successful_expectations": {
+                "$sum": "$statistics.successful_expectations"
+            },
+            "unsuccessful_expectations": {
+                "$sum": "$statistics.unsuccessful_expectations"
+            },
+        },
+    },
+```
+
+Example results from this pipeline:
+
+![query 1](/images/mongo-q1.png)
+
+### Aggregate Pipeline #2 - List of all Failed Expectations
+
+This pipeline provides a list of all Failed expectations as well as associated column and arguments applied to exepctation.  Pipeline definition is below including filtering for failed expectations, "unwinding" to un-nest expectations from document and projecting results to desired fields:
+
+```json
+    {"$match": {"success": False}},  // Filter to documents that contain a failure
+    {"$unwind": "$results"},  // Unwind specific expectations
+    {
+        "$addFields": {
+            "success": "$results.success",
+            "timestamp": "$meta.validation_time",
+            "expected": "$results.expectation_config.expectation_type",
+            "column": "$results.expectation_config.kwargs.column",
+            "min": "$results.expectation_config.kwargs.min_value",
+            "max": "$results.expectation_config.kwargs.max_value",
+        }
+    },
+    {"$match": {"success": False}},  // Filter expectations that failed
+    {
+        "$project": {
+            "_id": 1,
+            "pipeline_name": 1,
+            "success": 1,
+            "timestamp": 1,
+            "expected": 1,
+            "column": 1,
+            "min": 1,
+            "max": 1,
+        }
+    },
+```
+
+Example results from this pipeline:
+
+![query 2](/images/mongo-q2.png)
+
+### Aggregate Pipeline #3 - Most Common Pipeline Failed Expectations
+
+This pipeline summarizes the above list of all failed expectations to provide a high-level view of what expectations are failing most often for specific pipelines.  This appends an additional grouping stage to above pipeline to provide a count of failed expectations per pipeline.
+
+```json
+
+    /* Appended as stage to failed list pipeline above*/
+    {
+        "$group": {  // Group total failures by pipeilne, expectation & column
+            "_id": {
+                "pipeline_name": "$pipeline_name",
+                "expected": "$expected",
+                "column": "$column",
+            },
+            "unsuccessful_expectations": {"$count": {}},
+        },
+    }
+
+```
+
+Example results from this pipeline:
+
+![query 3](/images/mongo-q3.png)
+
+## PySpark Data Frame Read Integration
+
+In additional to PyMongo-based queries we can leverage the [MongoDB Connector for Spark](https://www.mongodb.com/products/spark-connector) to directly query MongoDB documents via PySpark APIs.  Example pyspark code can be found [here](https://github.com/ckevinhill/csci_e59_mongo_greatexp_pyspark/blob/main/src/pyspark-reporting.py).
+
+To enable MongoDB read support the PySpark SparkSession needs to be launched with supporting connect jar.  Note that the specific connector version needs to be appropriately matched with Spark (e.g. 3.2.1) and Scala (e.g. 2.12.15) version installed in environment (can be identified via `pyspark --version` command):
+
+```python
+# Create the SparkSession with the
+# mongo-spark connector enabled on classpath:
+spark = (
+    SparkSession.builder.appName("Expectation-Failure-Reporting")
+    .config(
+        "spark.jars.packages", "org.mongodb.spark:mongo-spark-connector_2.12:10.1.1"
+    )
+    .getOrCreate()
+)
+```
+
+Dataframes can then be created from MongoDB collection using the "mongodb" format loader:
+
+```python
+# Read from Mongodb db/collection into DataFrame
+df = (
+    spark.read.format("mongodb")
+    .option("spark.mongodb.read.database", os.getenv("VERIFICATION_MONGO_DB_NAME"))
+    .option("spark.mongodb.read.collection", "pipeline")
+    .option(
+        "spark.mongodb.read.connection.uri",
+        os.getenv("VERIFICATION_MONGO_CONNECTION_STR"),
+    )
+    .load()
+)
+```
+
+Once made avaiable as a DataFrame standard SparkSQL or DataFrame operations can be applied.
+
+### Spark DataFrame Query #1 - Today's Failures
+
+This query provides a list of pipeline failures that have happened on current day using the `meta.validation_time` timestamp (converted to Date object) to filter results vs. current date and sort descending:
+
+```python
+# Filter to just Failed records:
+df = df.filter(F.col("success") == False)
+
+# Report on Failures today:
+df_today_failures = (
+    df.withColumn(
+        "truncated_timestamp", F.substring(F.col("meta.validation_time"), 1, 8)
+    )
+    .withColumn("date", F.to_date(F.col("truncated_timestamp"), "yyyyMMdd"))
+    .filter(F.col("date") == F.current_date())
+    .orderBy(F.col("meta.validation_time").desc())
+    .select(
+        [
+            "pipeline_name",
+            "meta.validation_time",
+            F.explode("results.expectation_config.expectation_type").alias(
+                "expectation_type"
+            ),
+        ]
+    )
+)
+```
+
+__Note__:  The `pyspark.sql.functions.explode` function serves a purpose similar to MongoDB's `$unwind` step to un-nest embedded arrays.
+
+Example results from this query:
+
+![query 4](/images/mongo-q4.png)
+
+### Spark DataFrame Query #2 - Columns with Most Frequent Failures
+
+This query provides visibility to data-set columns that have most frequent failures and associated failure expectation type:
+
+```python
+# Filter to just Failed records:
+df = df.filter(F.col("success") == False)
+
+# Report on Column failures:
+df_col_failures = (
+    df.select([F.explode("results.expectation_config.kwargs.column").alias("column")])
+    .groupBy(F.col("column"))
+    .agg(F.count(F.lit(1)).alias("failure count"))
+)
+```
+
+Example results from this query:
+
+![query 5](/images/mongo-q5.png)
+
+## MongoDB Scalability Options
+
+While the default MongoDB configuration provided sub-second responses for all inserts and queries there are additional considerations and factors that could be considered to improve scalabiltiy and production robustness:
+
+* [Sharding](https://www.mongodb.com/docs/manual/sharding/) - Data can be shared over a set of machines to enable large scale data collection management with each distributed machine having responsibility for one "shard" of data.  This provides the ability to maintain query performance but increases infrastructure cost and complexity.
+* [Materialized Views](https://www.mongodb.com/docs/manual/core/materialized-views/) - Aggregate Pipelines can be materialized to reduce on-demand processing requirements (read from disk vs. computing) and reduce query response time.  This comes at the cost of increased storage and requirements to define materialize refresh timing.
+* [Indexing](https://www.mongodb.com/docs/manual/indexes/) - Indexes can be applied to Collection to improve query filtering by eliminating need for full collection query scans (i.e. reviewing every document).  For our queries above key indexes that help improve performance are: *success* and *pipeline_name* which are used for failure filtering and individual pipeline reporting respectively.
+* [Replica Sets](https://www.mongodb.com/docs/manual/replication/) - Replica sets (i.e. replication) provides high availability by replicating data (or sharded data) to secondary servers.  This insures that if there is a failure with one server there are redundat backups that can maintain alway-on uptime.  MongoDB manages replication to maintain synchonization between primary and secondary replicas.  While less common, replicas can also improve query performance by providing alternative query sources for high-load, peak periods.
