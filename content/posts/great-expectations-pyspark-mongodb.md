@@ -14,7 +14,7 @@ As discussed in [previous posts](/posts/great-expectations/) - [Great Expectatio
 
 To drive enterprise-level use of Great Expectations we will illustrate integration of Great Expectations into PySpark Data Frame creation as well as the scalable storage of Expectation validation results using [MongoDB](https://www.mongodb.com/) backend.  Additionally we will illustrate integration of PySpark ability to read from MongoDB using the [MongoDB Connector for Spark](https://www.mongodb.com/products/spark-connector).
 
-__Our goal is to create a scalable approach for Data Quality management that can be integrated directly into existing PySpark/Databrick appraoches__
+__Our goal is to create a scalable approach for Data Quality management that can be integrated directly into existing PySpark/Databrick development practices.
 
 ## Background: Great Expectation Validation Result Data
 
