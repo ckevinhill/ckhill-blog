@@ -1,59 +1,49 @@
-# This is a basic workflow to help you get started with Actions
+# Build the Hugo blog and deploy the static output to Cloudflare Pages.
+# Deploys run on every push to master (or manually via workflow_dispatch).
+# Requires a repo secret: CLOUDFLARE_API_TOKEN (Cloudflare API token with
+# Account -> Cloudflare Pages -> Edit on the account below).
 
 name: Build and deploy blog site
 
 defaults:
   run:
-    shell: bash  
+    shell: bash
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# Controls when the action will run. Triggers the workflow on push
+# events but only for the master branch.
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
 
 env:
   HUGO_VERSION: 0.68.3
   SITE_BASEURL: https://blog.ckhill.com
-  AZURE_STORAGE_ACCOUNT: blogckhillcom
-  # AZURE_STORAGE_KEY: <Stored as Repository Secret>
-  
+  # Cloudflare account that owns the ckhill-blog Pages project (not secret).
+  CLOUDFLARE_ACCOUNT_ID: 49cabc337e68d68d97144f9456ce5ad8
+  CLOUDFLARE_PAGES_PROJECT: ckhill-blog
+
 jobs:
   build-deploy:
     name: Build and deploy
     runs-on: ubuntu-latest
     steps:
-    # Checkout latest codebase from repository
+      # Checkout latest codebase from repository
       - name: Checkout blog repository code
         uses: actions/checkout@v2
 
-    # Download and Install Hugo
+      # Download and Install Hugo
       - name: Setup hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: "${{ env.HUGO_VERSION }}"
-    
-    # Build site
+
+      # Build site
       - name: Build site with Hugo
         run: hugo --minify
-    
-    # Deploy site via Hugo
-      - name: Deploy build to static site (Azure blob)
-        run: hugo deploy --maxDeletes -1
+
+      # Deploy the prebuilt ./public directory to Cloudflare Pages
+      - name: Deploy to Cloudflare Pages
+        run: npx -y wrangler@3 pages deploy ./public --project-name=${{ env.CLOUDFLARE_PAGES_PROJECT }} --commit-dirty=true
         env:
-          AZURE_STORAGE_ACCOUNT: ${{ env.AZURE_STORAGE_ACCOUNT }}
-          AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-
-    # Invalidate CDN
-      - name: Azure service principal login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZ_CDN_APP_CREDENTIALS }}
-
-      - name: Purge CDN
-        run:
-          az cdn endpoint purge -n ckhillblog --profile-name ckhillblog --content-paths "/*" --resource-group ckhill-site --no-wait
-        
-      - name: Azure service principal logout
-        run: |
-          az logout
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
