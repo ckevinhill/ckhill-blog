@@ -1,6 +1,6 @@
 ---
 title: "Moving blog.ckhill.com from Azure Blob Storage to Cloudflare Pages"
-date: 2026-09-29T21:30:00-04:00
+date: 2026-09-29T20:00:00-04:00
 tags: ["azure", "cloudflare", "tutorial", "hugo", "devops"]
 draft: false
 ---
