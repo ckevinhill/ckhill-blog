@@ -11,7 +11,7 @@ Six years ago I wrote about [setting up this blog with Hugo, Azure Blob Storage 
 
 ### Why move
 
-Two things happened. First, I moved the domain's DNS to Cloudflare and the `blog.ckhill.com` record didn't survive the move, so the blog went dark. Second, when I looked at restoring it, I had to confront the Azure CDN cost. Azure CDN Standard bills around **$0.081/GB** of outbound transfer in Zone 1 (North America/Europe), plus the storage account itself (roughly $0.02/GB stored, plus transaction fees). For a small personal blog pushing maybe 10 GB a month, that's on the order of **$25–40 a year** — not a fortune, but a monthly bill with unpredictable upside for a hobby project. (And if you ever land on Premium Verizon tiers, the per-GB rate roughly doubles.)
+Two things happened. First, I moved the domain's DNS to Cloudflare and the `blog.ckhill.com` record didn't survive the move, so the blog went dark. Second, when I looked at restoring it, the Azure path had gotten materially worse. Microsoft discontinued Azure CDN classic — the exact service my old setup used — and the replacement is Azure Front Door, which carries a **fixed base fee of ~$35/month** before you serve a single byte, plus per-GB egress on top. That's a **$420/year floor** for a blog that gets a trickle of traffic. The old per-GB math (about $0.081/GB in Zone 1, plus ~$0.02/GB for the storage account — maybe $25–40 a year for a small blog) was already hard to justify for a hobby project; the Front Door base fee makes it a non-starter. A fixed monthly fee is simply the wrong shape for something with near-zero traffic.
 
 Cloudflare Pages, by contrast, is **$0** on the free tier: unlimited bandwidth, 500 builds a month, free HTTPS, and my DNS was already on Cloudflare. The math wasn't hard.
 
@@ -77,4 +77,4 @@ Push to `master` and the workflow builds and deploys. Every future push does the
 
 ### Bottom line
 
-Same Hugo site, same GitHub Actions muscle memory, zero hosting bill, and deploys that finish in under a minute. The whole migration — diagnosis, Pages project, DNS, workflow rewrite, verification — took an evening, most of it spent on the two API quirks above. Hopefully this post saves you those twenty minutes.
+Same Hugo site, same GitHub Actions muscle memory, zero hosting bill, and deploys that finish in under a minute. The decisive factor wasn't even the per-GB rate — it was Azure replacing classic CDN with Front Door and its $35/month base fee. For a low-traffic blog, a fixed monthly floor is the wrong pricing shape entirely; Cloudflare Pages' free tier fits it exactly. The whole migration — diagnosis, Pages project, DNS, workflow rewrite, verification — took an evening, most of it spent on the two API quirks above. Hopefully this post saves you those twenty minutes.
